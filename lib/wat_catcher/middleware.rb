@@ -21,7 +21,7 @@ module WatCatcher
         url << ":#{request.port}" unless [80, 443].include?(request.port)
         url << request.fullpath
 
-        @client.post("http://localhost:3000/wats",
+        @client.post("#{WatCatcher.configuration.host}/wats",
                        "wat[page_url]" => page_url,
                        "wat[request_params]" => params,
                        "wat[session]" => session,
