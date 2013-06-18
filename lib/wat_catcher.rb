@@ -4,7 +4,6 @@ require 'wat_catcher/backgrounder'
 require "wat_catcher/middleware"
 
 require "wat_catcher/railtie" if defined?(Rails::Railtie)
-
 module WatCatcher
   class << self
     def configure(config_hash=nil)
@@ -20,3 +19,6 @@ module WatCatcher
     end
   end
 end
+
+require "wat_catcher/engine"
+
