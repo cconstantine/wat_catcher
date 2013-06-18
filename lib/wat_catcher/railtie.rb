@@ -14,14 +14,6 @@ module WatCatcher
       config = YAML.load_file(config_file) if File.exists?(config_file)
       WatCatcher.configure(config[::Rails.env] ? config[::Rails.env] : config) if config
     end
-
-    initializer "wat_catcher.use_rack_middleware" do |app|
-      begin
-        app.config.middleware.insert_after ActionDispatch::DebugExceptions, "WatCatcher::Middleware"
-      rescue
-        app.config.middleware.use "WatCatcher::Middleware"
-      end
-    end
   end
 
 end
