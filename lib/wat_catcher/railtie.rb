@@ -13,7 +13,12 @@ module WatCatcher
       config_file = ::Rails.root.join("config", "wat_catcher.yml")
       config = YAML.load_file(config_file) if File.exists?(config_file)
       WatCatcher.configure(config[::Rails.env] ? config[::Rails.env] : config) if config
+
+   end
+    initializer "wat_catcher.view_helpers" do |app|
+      ActionView::Base.send :include, ::WatCatcher::Helper
     end
+
   end
 
 end
