@@ -21,12 +21,14 @@ module WatCatcher
       ::WatCatcher::SidekiqPoster.perform_async(
         "#{WatCatcher.configuration.host}/wats",
         {
-            "wat[page_url]" => page_url,
-            "wat[request_params]" => params,
-            "wat[session]" => session,
-            "wat[backtrace][]" => excpt.backtrace.to_a,
-            "wat[message]" => excpt.message,
-            "wat[error_class]" => excpt.class.to_s
+            wat: {
+                page_url: page_url,
+                request_params: params,
+                session: session,
+                backtrace: excpt.backtrace.to_a,
+                message: excpt.message,
+                error_class: excpt.class.to_s
+            }
         })
       raise
     end

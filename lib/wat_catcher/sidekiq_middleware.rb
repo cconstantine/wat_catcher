@@ -4,8 +4,7 @@ module WatCatcher
       begin
         yield
       rescue => excpt
-        return if msg["class"] == WatCatcher::SidekiqPoster.to_s
-        p '******************* SETTING UP POSTING TO WATTLE *********************************'
+        raise if msg["class"] == WatCatcher::SidekiqPoster.to_s
         SidekiqPoster.perform_async(
             "#{WatCatcher.configuration.host}/wats",
             {
@@ -17,7 +16,6 @@ module WatCatcher
 
                 }
             })
-      ensure
         raise
       end
     end
