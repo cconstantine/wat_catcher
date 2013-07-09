@@ -1,8 +1,12 @@
 require "wat_catcher/version"
 
+require 'wat_catcher/sidekiq_poster'
 require 'wat_catcher/backgrounder'
 require "wat_catcher/middleware"
 require "wat_catcher/wattle_helper"
+require "wat_catcher/sidekiq_middleware"
+require "wat_catcher/sidekiq_poster"
+
 
 require "wat_catcher/railtie" if defined?(Rails::Railtie)
 module WatCatcher

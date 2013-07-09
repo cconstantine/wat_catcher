@@ -24,4 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-coffeescript"
   spec.add_development_dependency "rb-readline"
   spec.add_runtime_dependency     'coffee-rails'
+  spec.add_runtime_dependency     'sidekiq'
+  spec.add_runtime_dependency     'httpclient'
 end
