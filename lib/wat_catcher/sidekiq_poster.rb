@@ -19,7 +19,7 @@ module WatCatcher
         session = request.session.as_json
         page_url = request.url
 
-        params.merge!({
+        params[:wat].merge!({
           page_url: page_url,
           request_params: request_params,
           session: session,
