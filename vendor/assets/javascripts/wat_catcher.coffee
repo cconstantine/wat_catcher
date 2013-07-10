@@ -10,7 +10,9 @@ class @WatCatcher
         @host = attr.nodeValue
       if attr.nodeName == 'data-app_env'
         @appEnv = attr.nodeValue
-      if @appEnv? && @host?
+      if attr.nodeName == 'data-app_name'
+        @appName = attr.nodeValue
+      if @appEnv? && @host? && @appName?
         break
 
     @oldErrorHandler = target.onerror
@@ -42,6 +44,7 @@ class @WatCatcher
           message:   msg
           backtrace: [url+":"+line]
           app_env:   @appEnv
+          app_name:  @appName
         }
       }
 

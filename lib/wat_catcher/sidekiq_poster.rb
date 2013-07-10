@@ -10,7 +10,8 @@ module WatCatcher
           backtrace: exception.backtrace.to_a,
           message: exception.message,
           error_class: exception.class.to_s,
-          app_env: ::Rails.env.to_s
+          app_env: ::Rails.env.to_s,
+          app_name: ::Rails.application.class.parent_name
         }
       }
 
