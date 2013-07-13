@@ -7,7 +7,7 @@ module WatCatcher
     def call(env)
       @app.call(env)
     rescue Exception => exception
-      SidekiqPoster.report(exception, request: env["action_controller.instance"].request)
+      Report.new(exception, request: env["action_controller.instance"].request)
       raise
     end
   end

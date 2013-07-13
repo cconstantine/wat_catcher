@@ -1,5 +1,6 @@
 require "wat_catcher/version"
 
+require "wat_catcher/report"
 require 'wat_catcher/sidekiq_poster'
 require "wat_catcher/middleware"
 require "wat_catcher/wattle_helper"
