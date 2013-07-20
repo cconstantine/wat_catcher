@@ -4,13 +4,13 @@ module WatCatcher
       begin
         yield
       rescue => excpt
-        raise if thrown_by_watcatcher?
+        raise if thrown_by_watcatcher?(msg)
         WatCatcher::Report.new(excpt, sidekiq: msg)
         raise
       end
     end
 
-    def thrown_by_watcatcher?
+    def thrown_by_watcatcher?(msg)
       msg["class"] =~ /WatCatcher/
     end
   end
