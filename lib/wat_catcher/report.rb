@@ -21,6 +21,7 @@ module WatCatcher
       return {} if exception || request.blank?
       wat_params = request.params[:wat]
       {
+        message: wat_params[:message],
         backtrace: wat_params[:backtrace],
         page_url: wat_params[:page_url],
         request_params: nil
