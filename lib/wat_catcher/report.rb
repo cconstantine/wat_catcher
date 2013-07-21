@@ -14,7 +14,7 @@ module WatCatcher
     end
 
     def params
-      { wat: exception_description.merge(request_description).merge(worker_description).merge(param_exception_description) }
+      { wat: base_description.merge(exception_description).merge(request_description).merge(worker_description).merge(param_exception_description) }
     end
 
     def param_exception_description
@@ -27,14 +27,19 @@ module WatCatcher
       }
     end
 
+    def base_description
+      {
+        app_env: ::Rails.env.to_s,
+        app_name: ::Rails.application.class.parent_name
+      }
+    end
+
     def exception_description
       return {} unless exception
       {
         backtrace: exception.backtrace.to_a,
         message: exception.message,
         error_class: exception.class.to_s,
-        app_env: ::Rails.env.to_s,
-        app_name: ::Rails.application.class.parent_name
       }
     end
 
@@ -53,7 +58,7 @@ module WatCatcher
     end
 
     def headers
-      Hash[*request.headers.select { |x| x.first !~ /\./ }.sort_by(&:first).flatten]
+      Hash[*request.headers.select { |x, y| y.instance_of? String }.sort_by(&:first).flatten]
     end
 
     def worker_description
