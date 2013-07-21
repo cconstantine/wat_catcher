@@ -1,8 +1,6 @@
 module WatCatcher
-  module Rails
-    class Engine < ::Rails::Engine
-      # Get rails to add app, lib, vendor to load path
-    end
-
+  class Engine < ::Rails::Engine
+    engine_name "wat_catcher"
   end
 end
+

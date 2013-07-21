@@ -1,19 +1,13 @@
 #Send the error to the same host that served this file (I think)
 class @WatCatcher
-
-
   constructor: (target=window) ->
     scripts = document.getElementsByTagName("script");
     node = scripts[scripts.length - 1];
+    @attrs = {}
     for attr in node.attributes
-      if attr.nodeName == 'data-host'
-        @host = attr.nodeValue
-      if attr.nodeName == 'data-app_env'
-        @appEnv = attr.nodeValue
-      if attr.nodeName == 'data-app_name'
-        @appName = attr.nodeValue
-      if @appEnv? && @host? && @appName?
-        break
+      attrs = /data-(.*)/.exec(attr.nodeName)
+      if attrs?
+        @attrs[attrs[1]] = attr.nodeValue
 
     @oldErrorHandler = target.onerror
     target.onerror = @watHandler
@@ -43,17 +37,24 @@ class @WatCatcher
           page_url:  window.location.toString()
           message:   msg
           backtrace: [url+":"+line]
-          app_env:   @appEnv
-          app_name:  @appName
+          app_env:   @attrs.appEnv
+          app_name:  @attrs.appName
         }
       }
 
-      img = new Image()
-      img.src = "#{@host}/create/wat?#{@toQuery(params)}"
-    catch error
+      xmlhttp = if window.XMLHttpRequest
+          new XMLHttpRequest()
+      else
+          new ActiveXObject("Microsoft.XMLHTTP")
 
-    if typeof @oldErrorHandler == 'function'
-      @oldErrorHandler(arguments...)
+      xmlhttp.open("POST", @attrs.route, true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xmlhttp.send(@toQuery(params));
+
+    catch error
+      if typeof @oldErrorHandler == 'function'
+        @oldErrorHandler(arguments...)
 
 
 window.watCatcher = new WatCatcher()
