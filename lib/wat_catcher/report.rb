@@ -14,11 +14,21 @@ module WatCatcher
     end
 
     def params
-      { wat: exception_description.merge(request_description).merge(worker_description) }
+      { wat: exception_description.merge(request_description).merge(worker_description).merge(param_exception_description) }
     end
 
+    def param_exception_description
+      return {} if exception || request.blank?
+      wat_params = request.params[:wat]
+      {
+        backtrace: wat_params[:backtrace],
+        page_url: wat_params[:page_url],
+        request_params: nil
+      }
+    end
 
     def exception_description
+      return {} unless exception
       {
         backtrace: exception.backtrace.to_a,
         message: exception.message,
