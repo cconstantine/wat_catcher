@@ -19,19 +19,14 @@ module WatCatcher
 
     def param_exception_description
       return {} if exception || request.blank?
-      wat_params = request.params[:wat]
-      {
-        message: wat_params[:message],
-        backtrace: wat_params[:backtrace],
-        page_url: wat_params[:page_url],
-        request_params: nil
-      }
+      request.params[:wat].merge(request_params: nil)
     end
 
     def base_description
       {
         app_env: ::Rails.env.to_s,
-        app_name: ::Rails.application.class.parent_name
+        app_name: ::Rails.application.class.parent_name,
+        language: "ruby"
       }
     end
 

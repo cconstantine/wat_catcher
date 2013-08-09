@@ -39,6 +39,7 @@ class @WatCatcher
           backtrace: [url+":"+line]
           app_env:   @attrs.appEnv
           app_name:  @attrs.appName
+          language: "javascript"
         }
       }
 
