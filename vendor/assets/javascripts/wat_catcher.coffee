@@ -37,8 +37,6 @@ class @WatCatcher
           page_url:  window.location.toString()
           message:   msg
           backtrace: [url+":"+line]
-          app_env:   @attrs.appEnv
-          app_name:  @attrs.appName
           language: "javascript"
         }
       }
