@@ -1,11 +1,12 @@
 module WatCatcher
   class Report
-    attr_accessor :exception, :request, :sidekiq
+    attr_accessor :exception, :request, :sidekiq, :user
 
-    def initialize(exception, request: nil, sidekiq: nil)
+    def initialize(exception, user: nil, request: nil, sidekiq: nil)
       self.exception = exception
       self.request = request
       self.sidekiq = sidekiq
+      self.user = user
       send_report
     end
 
@@ -14,7 +15,12 @@ module WatCatcher
     end
 
     def params
-      { wat: base_description.merge(exception_description).merge(request_description).merge(worker_description).merge(param_exception_description) }
+      { wat: base_description
+        .merge(user_description)
+        .merge(exception_description)
+        .merge(request_description)
+        .merge(worker_description)
+        .merge(param_exception_description) }
     end
 
     def param_exception_description
@@ -28,6 +34,14 @@ module WatCatcher
         app_name: ::Rails.application.class.parent_name,
         language: "ruby"
       }
+    end
+
+    def user_description
+      u = nil
+      begin
+        u = user.as_json
+      rescue; end
+      { app_user: u }
     end
 
     def exception_description
