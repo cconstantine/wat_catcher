@@ -11,6 +11,7 @@ module WatCatcher
     end
 
     def send_report
+      return if WatCatcher.configuration.disabled
       ::WatCatcher::SidekiqPoster.perform_async("#{WatCatcher.configuration.host}/wats", params)
     end
 
