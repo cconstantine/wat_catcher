@@ -39,7 +39,7 @@ development:
 test:
   <<: *default
   disabled: true
-``
+```
 
 OR
 
@@ -57,12 +57,14 @@ config/environments/development.rb
 YourApp::Application.configure do
   WatCatcher.configuration.disabled = true
 end
+```
 
 config/environments/test.rb
 ```ruby
 YourApp::Application.configure do
   WatCatcher.configuration.disabled = true
 end
+```
 
 
 ### Mount the engine in your app for javascript errors
