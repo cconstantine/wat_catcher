@@ -5,7 +5,14 @@ module WatCatcher
         yield
       rescue => excpt
         raise if thrown_by_watcatcher?(msg)
-        WatCatcher::Report.new(excpt, sidekiq: msg)
+        u = nil
+        begin
+          if worker.class == Sidekiq::Extensions::DelayedClass
+            (worker,method_name,args) = YAML.load(msg["args"][0])
+          end
+          u = worker.wat_user(*msg["args"]) if worker.respond_to? :wat_user
+        rescue; end
+        WatCatcher::Report.new(excpt, user: u, sidekiq: msg)
         raise
       end
     end
