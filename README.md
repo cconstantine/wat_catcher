@@ -172,6 +172,9 @@ end
 SomeWorker.perform_async("derp")
 ```
 
+
+When in doubt, check out the cconstantine/wattle.  It uses itself to report errors and uses all of the above features.
+
 ## Contributing
 
 1. Fork it
