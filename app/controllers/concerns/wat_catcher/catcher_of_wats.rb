@@ -6,6 +6,8 @@ module WatCatcher
 
     included do
       around_filter :catch_wats
+
+      helper_method :wat_user
     end
 
     def wat_user

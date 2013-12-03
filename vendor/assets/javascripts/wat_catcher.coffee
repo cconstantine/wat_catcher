@@ -1,3 +1,5 @@
+parseJson = JSON.parse || jQuery.parseJSON
+
 #Send the error to the same host that served this file (I think)
 class @WatCatcher
   constructor: (target=window) ->
@@ -8,6 +10,9 @@ class @WatCatcher
       attrs = /data-(.*)/.exec(attr.nodeName)
       if attrs?
         @attrs[attrs[1]] = attr.nodeValue
+
+
+    @app_user = parseJson(@attrs["app-user"]) if (parseJson? && @attrs["app-user"])
 
     @oldErrorHandler = target.onerror
     target.onerror = @watHandler
@@ -38,6 +43,7 @@ class @WatCatcher
           message:   msg
           backtrace: [url+":"+line]
           language: "javascript"
+          app_user: @app_user
         }
       }
 
