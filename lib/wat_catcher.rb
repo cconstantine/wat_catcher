@@ -4,6 +4,7 @@ require "wat_catcher/report"
 require 'wat_catcher/sidekiq_poster'
 require "wat_catcher/wattle_helper"
 require "wat_catcher/sidekiq_middleware"
+require "wat_catcher/rack_middleware"
 require "wat_catcher/sidekiq_poster"
 
 require "wat_catcher/railtie" if defined?(Rails::Railtie)

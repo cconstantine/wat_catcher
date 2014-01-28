@@ -14,6 +14,14 @@ module WatCatcher
       current_user
     end
 
+    def disable_wat_report
+      env["wat_report_disabled"] = true
+    end
+
+    def report_wat?
+      !!(env["wat_report"].present? && !env["wat_report_disabled"])
+    end
+
     def catch_wats(&block)
       block.call
     rescue Exception => e
@@ -21,7 +29,10 @@ module WatCatcher
       begin
         user = wat_user
       rescue;end
-      WatCatcher::Report.new(e, user: user, request: request)
+      env["wat_report"] = {
+        request: request,
+        user: user
+      }
       raise
     end
   end
