@@ -8,6 +8,7 @@ require "wat_catcher/rack_middleware"
 require "wat_catcher/sidekiq_poster"
 
 require "wat_catcher/railtie" if defined?(Rails::Railtie)
+
 module WatCatcher
   class << self
     def configure(config_hash=nil)

@@ -8,5 +8,14 @@ module WatCatcher
                               app_user: wat_user.as_json
                              }
     end
+
+    def javascript_bugsnag_catcher
+      javascript_include_tag "bugsnag",
+                             data: {
+                               endpoint: wat_catcher.bugsnag_path(::Rails.application.class.parent_name),
+                               apiKey: "a"*32,
+                               user: wat_user.as_json
+                             }
+    end
   end
 end

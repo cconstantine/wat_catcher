@@ -1,3 +1,6 @@
 WatCatcher::Engine.routes.draw do
-  resources :wats, only: :create, module: "wat_catcher"
+  scope module: 'wat_catcher' do
+    resources :wats, only: :create
+    resources :bugsnag, only: :show
+  end
 end
