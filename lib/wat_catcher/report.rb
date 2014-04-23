@@ -33,7 +33,8 @@ module WatCatcher
       {
         app_env: ::Rails.env.to_s,
         app_name: ::Rails.application.class.parent_name,
-        language: "ruby"
+        language: "ruby",
+        captured_at: Time.zone.now
       }
     end
 
