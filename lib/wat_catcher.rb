@@ -9,7 +9,18 @@ require "wat_catcher/sidekiq_poster"
 
 require "wat_catcher/railtie" if defined?(Rails::Railtie)
 
+
 module WatCatcher
+  class Configuration < OpenStruct
+    def method_missing(method, *args)
+      if method[-1] != "="
+        ENV["wattle_#{method}".upcase] || super
+      else
+        super
+      end
+    end
+  end
+
   class << self
     def configure(config_hash=nil)
       config_hash.each do |k, v|
@@ -20,7 +31,7 @@ module WatCatcher
     end
 
     def configuration
-      @configuration ||= OpenStruct.new
+      @configuration ||= Configuration.new
     end
   end
 end
