@@ -26,7 +26,7 @@ module WatCatcher
       if !env["wat_report_disabled"]
         begin
           user, request = nil
-          if false && env["wat_report"]
+          if env["wat_report"]
             user = env["wat_report"][:user]
             request = env["wat_report"][:request]
           else
