@@ -34,7 +34,8 @@ module WatCatcher
         app_env: ::Rails.env.to_s,
         app_name: ::Rails.application.class.parent_name,
         language: "ruby",
-        captured_at: Time.zone.now
+        captured_at: Time.zone.now,
+        hostname: Socket.gethostname
       }
     end
 
