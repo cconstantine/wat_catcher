@@ -6,7 +6,7 @@ module WatCatcher
 
      def perform(url, params)
       HTTPClient.post_content(url,
-                              body: params["wat"].to_json,
+                              body: params.to_json,
                               header: {"Content-Type" => "application/json; charset=utf-8"})
     end
   end
