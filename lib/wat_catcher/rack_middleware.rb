@@ -1,18 +1,17 @@
 module WatCatcher
   class RackMiddleware
     class WatCatcher::Request
-      attr_accessor :url, :method, :params, :headers, :session
+      attr_accessor :url, :method, :headers, :session
 
-      def initialize(url, method, params,  headers, session)
+      def initialize(url, method, headers, session)
         @url = url
         @method = method
-        @params = params
         @headers = headers
         @session = session
       end
 
       def filtered_parameters
-        params
+        nil
       end
     end
 
@@ -32,7 +31,6 @@ module WatCatcher
           else
             rack_env = env
             rack_request = ::Rack::Request.new(env)
-            params = rack_request.params rescue {}
 
             # Build the clean url (hide the port if it is obvious)
             url = "#{rack_request.scheme}://#{rack_request.host}"
@@ -46,7 +44,7 @@ module WatCatcher
               end
 
             end
-            request = WatCatcher::Request.new(url, rack_request.request_method, params.to_hash, headers, rack_env["rack.session"])
+            request = WatCatcher::Request.new(url, rack_request.request_method, headers, rack_env["rack.session"])
           end
         ensure
           WatCatcher::Report.new(e, user: user, request: request)
