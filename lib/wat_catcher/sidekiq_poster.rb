@@ -1,4 +1,5 @@
 require 'sidekiq'
+require 'httpclient'
 
 module WatCatcher
  class SidekiqPoster
