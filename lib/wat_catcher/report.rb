@@ -8,11 +8,17 @@ module WatCatcher
       self.sidekiq = sidekiq
       self.user = user
       send_report
+      log_report
     end
 
     def send_report
       return if WatCatcher.configuration.disabled
       ::WatCatcher::SidekiqPoster.perform_async("#{WatCatcher.configuration.host}/wats", params)
+    end
+
+    def log_report
+      return if WatCatcher.configuration.disabled
+      Rails.logger.error( "WatCatcher::error: " + base_description.tap {|x| x.delete(:rails_root) }.to_json )
     end
 
     def params
