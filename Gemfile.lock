@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wat_catcher (0.10.0)
+    wat_catcher (0.10.1)
       coffee-rails
       httpclient
       sidekiq
