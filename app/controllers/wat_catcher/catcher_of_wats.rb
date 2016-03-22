@@ -33,25 +33,7 @@ module WatCatcher
         request: request,
         user: user
       }
-      disable_wat_report unless user_came_from_us
-      disable_wat_report if access_denied?(e)
       raise
-    end
-
-    private
-
-    def user_came_from_us
-      request.referrer.present? || request_from_email?
-    end
-
-    def request_from_email?
-      params[:utm_campaign].present? && params[:utm_medium] == "email"
-    end
-
-    def access_denied?(e)
-      if defined?(CanCan::AccessDenied)
-        e.is_a? CanCan::AccessDenied
-      end
     end
   end
 end
