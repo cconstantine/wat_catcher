@@ -44,7 +44,7 @@ module WatCatcher
               end
 
             end
-            request = WatCatcher::Request.new(url, rack_request.request_method, headers, rack_env["rack.session"])
+            request = WatCatcher::Request.new(url, rack_request.request_method, headers, rack_request.session.to_hash)
           end
         ensure
           WatCatcher::Report.new(e, user: user, request: request)
