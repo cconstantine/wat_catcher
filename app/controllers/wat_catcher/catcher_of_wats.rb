@@ -5,7 +5,7 @@ module WatCatcher
     extend ActiveSupport::Concern
 
     included do
-      around_filter :catch_wats
+      around_action :catch_wats
 
       helper_method :wat_user
     end
@@ -15,11 +15,11 @@ module WatCatcher
     end
 
     def disable_wat_report
-      env["wat_report_disabled"] = true
+      request.env["wat_report_disabled"] = true
     end
 
     def report_wat?
-      !!(env["wat_report"].present? && !env["wat_report_disabled"])
+      !!(request.env["wat_report"].present? && !request.env["wat_report_disabled"])
     end
 
     def catch_wats(&block)
@@ -29,7 +29,7 @@ module WatCatcher
       begin
         user = wat_user
       rescue;end
-      env["wat_report"] = {
+      request.env["wat_report"] = {
         request: request,
         user: user
       }
