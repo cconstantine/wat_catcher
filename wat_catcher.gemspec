@@ -25,10 +25,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rb-readline"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-rails"
-  spec.add_development_dependency "rails", "~> 4.0.2"
   spec.add_development_dependency "sqlite3"
 
   spec.add_runtime_dependency     'coffee-rails'
-  spec.add_runtime_dependency     'sidekiq'
+  spec.add_runtime_dependency     'rails', '>= 4.2.0'
   spec.add_runtime_dependency     'httpclient'
 end

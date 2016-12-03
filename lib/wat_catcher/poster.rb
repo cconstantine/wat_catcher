@@ -1,9 +1,7 @@
-require 'sidekiq'
 require 'httpclient'
 
 module WatCatcher
- class SidekiqPoster
-    include Sidekiq::Worker
+ class Poster < ActiveJob::Base
 
      def perform(url, params)
       HTTPClient.post_content(url,
