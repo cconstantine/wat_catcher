@@ -4,7 +4,11 @@ module WatCatcher
       begin
         yield
       rescue => excpt
-        raise if thrown_by_watcatcher?(msg)
+        if thrown_by_watcatcher?(msg)
+          Rails.logger.error( "WatCatcher::SidekiqMiddleware error thrown by wat_catcher!: #{excpt.inspect}" )
+
+          raise
+        end
         u = nil
         begin
           if worker.class == Sidekiq::Extensions::DelayedClass
@@ -16,7 +20,7 @@ module WatCatcher
             u = { id: "jid_#{msg["jid"]}", jid: msg["jid"] }
           end
 
-        rescue; raise
+        rescue
         end
 
         WatCatcher::Report.new(excpt, user: u, sidekiq: msg)
