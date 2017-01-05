@@ -36,7 +36,7 @@ module WatCatcher
     end
 
     def metrics_namespace
-      "#{base_description[:app_name]}.#{base_description[:app_env]}.".downcase
+      "#{base_description[:app_name]}.#{base_description[:app_env]}".downcase
     end
 
     def instrument_report
