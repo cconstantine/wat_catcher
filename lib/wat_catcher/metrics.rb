@@ -11,8 +11,7 @@ module WatCatcher
     end
 
     def client
-      @client = ::Statsd.new @host, @port
-      @client
+      ::Statsd.new @host, @port
     end
 
     def increment(metric, sample_rate=1)
