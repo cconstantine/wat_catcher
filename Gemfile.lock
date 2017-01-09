@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wat_catcher (0.10.8)
+    wat_catcher (0.10.9)
       coffee-rails
       httpclient
       rails (>= 4.2.0)
