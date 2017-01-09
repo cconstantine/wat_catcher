@@ -80,7 +80,6 @@ Alternatively, this can be configured in `config/application.rb` or environment 
 ```ruby
 module YourApp
   class Application < Rails::Application
-  Application configure do
     WatCatcher.configuration.statsd_host = "statsd.service.consul"
     WatCatcher.configuration.statsd_port = 9125
     WatCatcher.configuration.metrics_disabled = false
