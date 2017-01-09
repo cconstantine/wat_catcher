@@ -1,5 +1,7 @@
+require 'statsd'
 require "wat_catcher/version"
 
+require "wat_catcher/metrics"
 require "wat_catcher/report"
 require "wat_catcher/poster"
 require "wat_catcher/wattle_helper"

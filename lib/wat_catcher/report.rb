@@ -9,6 +9,7 @@ module WatCatcher
       self.user = user
       send_report
       log_report
+      instrument_report unless metrics_disabled?
     end
 
     def send_report
@@ -19,6 +20,38 @@ module WatCatcher
     def log_report
       return if WatCatcher.configuration.disabled
       Rails.logger.error( "WatCatcher::error: " + base_description.tap {|x| x.delete(:rails_root) }.to_json )
+    end
+
+    def metrics_disabled?
+      WatCatcher.configuration.metrics_disabled = true if WatCatcher.configuration.metrics_disabled.nil?
+      WatCatcher.configuration.metrics_disabled
+    end
+
+    def metrics_reporter
+      @reporter ||= ::WatCatcher::Metrics.new
+      @reporter.host = WatCatcher.configuration.statsd_host
+      @reporter.port = WatCatcher.configuration.statsd_port
+
+      @reporter
+    end
+
+    def metrics_namespace
+      "#{base_description[:app_name]}.#{base_description[:app_env]}".downcase
+    end
+
+    def instrument_report
+      return if WatCatcher.configuration.disabled
+
+      # increment graphite counter, ':' is used to seperate metric from metric value -- therefore, replace ':' with '_'
+      #   e.g. kairos.staging.exceptions.NoMethodError.frequency is count of `NoMethodError`s during sample period (60s)
+      #
+      # for application-aggregated
+      metrics_reporter.increment "#{metrics_namespace}.wat.#{exception_description[:error_class].gsub ':', '_'}.frequency"
+      # for server-aggregated
+      metrics_reporter.increment "#{metrics_namespace}.#{base_description[:hostname]}.wat.#{exception_description[:error_class].gsub ':', '_'}.frequency"
+
+      # emit an event that an exception was raised
+      metrics_reporter.set "#{metrics_namespace}.#{base_description[:hostname]}.wat.#{base_description[:error_class]}.occurance", base_description[:captured_at]
     end
 
     def params

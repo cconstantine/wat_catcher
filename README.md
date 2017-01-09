@@ -66,6 +66,32 @@ YourApp::Application.configure do
 end
 ```
 
+#### Adding Telemetry
+In `config/wat_catcher.yml`:
+
+```yml
+production: &default
+  statsd_host: statsd.service.consul
+  statsd_port: 9125
+  metrics_disabled: false # defaults to true
+```
+
+Alternatively, this can be configured in `config/application.rb` or environment file (e.g. `config/environments/production.rb`).
+```ruby
+module YourApp
+  class Application < Rails::Application
+    WatCatcher.configuration.statsd_host = "statsd.service.consul"
+    WatCatcher.configuration.statsd_port = 9125
+    WatCatcher.configuration.metrics_disabled = false
+  end
+end
+```
+
+```ruby
+YourApp::Application.configure do
+  WatCatcher.configuration.metrics_disabled = false
+end
+```
 
 ### Mount the engine in your app for javascript errors
 To get around cross-origin issues, an engine was created that accepts POSTs of client exceptions and puts a sidekiq
