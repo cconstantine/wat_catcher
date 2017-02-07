@@ -17,12 +17,17 @@ module WatCatcher
 
         rescue
         end
-
-        WatCatcher::Report.new(excpt, user: u, sidekiq: msg)
+        WatCatcher::Report.new(excpt, user: u, sidekiq: msg) unless meets_threshold?(msg)
         raise
       end
     end
 
-  end
+    private
 
+    def meets_threshold?(retry_count)
+      return true if WatCatcher.configuration.sidekiq_retry_threshold.nil?
+      retry_count = msg['retry_count'].to_i
+      retry_count == 0 || retry_count >= WatCatcher.configuration.sidekiq_retry_threshold
+    end
+  end
 end

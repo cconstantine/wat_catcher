@@ -21,9 +21,10 @@ Or install it yourself as:
 ### Configuration
 You can configure the wat_catcher in 2 ways; 1) via a config/wat_catcher.yml file or in ruby.
 
-Currently there are only 2 configuration options:
+Currently there are only 3 configuration options:
 host: This is the beginning of the url used to post wats to wattle.  It should look something like "https://yourwattleserver.com".
 disabled: If truthy this will stop any wats from being posted.
+sidekiq_retry_threshold: the number of retries that a job must be on before it raises a wat
 
 Here are 2 identical configs specified in the yml and in ruby.
 
@@ -31,6 +32,7 @@ config/wat_catcher.yml
 ```yml
 production: &default
   host: "https://wattle.yourhost.com"
+  sidekiq_retry_threshold: 4
 
 development:
   <<: *default
@@ -47,7 +49,8 @@ config/application.rb
 ```ruby
 module YourApp
   class Application < Rails::Application
-    WatCatcher.configuration.host =  "https://wattle.yourhost.com"
+    WatCatcher.configuration.host                    =  "https://wattle.yourhost.com"
+    WatCatcher.configuration.sidekiq_retry_threshold = 4
   end
 end
 ```
