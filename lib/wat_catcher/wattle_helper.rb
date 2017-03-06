@@ -14,7 +14,8 @@ module WatCatcher
                              data: {
                                endpoint: wat_catcher.bugsnag_path(::Rails.application.class.parent_name),
                                apiKey: "a"*32,
-                               user: wat_user.as_json
+                               user: wat_user.as_json,
+                               notifyUnhandledRejections: !!WatCatcher.configuration.notify_unhandled_promise_rejections
                              }
     end
   end
