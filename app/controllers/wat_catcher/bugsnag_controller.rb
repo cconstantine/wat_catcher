@@ -1,6 +1,6 @@
 module WatCatcher
   class BugsnagController < ActionController::Base
-    skip_before_filter :verify_authenticity_token, only: :get, raise: false
+    skip_before_action :verify_authenticity_token, only: :get, raise: false
     include WatCatcher::CatcherOfWats
 
     def show
